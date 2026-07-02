@@ -1,0 +1,69 @@
+import csv
+import os
+from datetime import datetime
+
+
+class EventLogger:
+
+    def __init__(self):
+
+        self.log_folder = "logs"
+        os.makedirs(self.log_folder, exist_ok=True)
+
+        self.log_file = os.path.join(
+            self.log_folder,
+            "events.csv"
+        )
+
+        # Create CSV only once
+        if not os.path.exists(self.log_file):
+
+            with open(self.log_file, "w", newline="") as file:
+
+                writer = csv.writer(file)
+
+                writer.writerow([
+                    "Date",
+                    "Time",
+                    "Camera",
+                    "Event",
+                    "Person",
+                    "Evidence"
+                ])
+
+        print("Event Logger Ready")
+
+    def log(
+        self,
+        camera,
+        event_type,
+        person_id,
+        evidence_path
+    ):
+
+        now = datetime.now()
+
+        date = now.strftime("%Y-%m-%d")
+        time = now.strftime("%H:%M:%S")
+
+        if person_id is None:
+            person = "Unknown"
+        else:
+            person = f"Person-{person_id:03d}"
+
+        with open(
+            self.log_file,
+            "a",
+            newline=""
+        ) as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow([
+                date,
+                time,
+                camera,
+                event_type,
+                person,
+                evidence_path
+            ])
