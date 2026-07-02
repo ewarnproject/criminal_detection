@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>CADMS Dashboard</title>
+
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+   <header class="topbar">
+
+    <div class="header-left">
+
+        <div class="logo-box">
+
+            🛡️
+
+        </div>
+
+        <div>
+
+            <h1>CADMS AI SURVEILLANCE SYSTEM</h1>
+
+            <p>
+                Computer Vision Based Multi-Camera Monitoring
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+        <div id="systemStatus" class="status online">
+
+            🟢 SYSTEM ONLINE
+
+        </div>
+
+        <div class="datetime">
+
+            <div id="currentDate"></div>
+
+            <div id="currentTime"></div>
+
+        </div>
+
+    </div>
+
+</header> 
+
+
+    <section class="cards">
+
+        <div class="card">
+
+            <h2 id="cameraCount">{{stats.cameras}}</h2>
+
+            <p>Cameras</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 id="eventCount">{{stats.events}}</h2>
+
+            <p>Total Events</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 id="intrusionCount">{{stats.intrusions}}</h2>
+
+            <p>Intrusions</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 id="evidenceCount">{{stats.evidence}}</h2>
+
+            <p>Evidence</p>
+
+        </div>
+
+    </section>
+
+
+    <section class="toolbar">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search Person..."
+        >
+
+        <select id="cameraFilter">
+
+            <option value="">All Cameras</option>
+
+            <option>CAM_UP</option>
+
+            <option>CAM_DOWN</option>
+
+            <option>CAM_ROHAN</option>
+
+            <option>CAM1_HALL</option>
+
+        </select>
+
+        <select id="eventFilter">
+
+            <option value="">All Events</option>
+
+            <option>INTRUSION</option>
+
+        </select>
+
+    </section>
+
+
+    <section class="table-container">
+
+        <table id="eventTable">
+
+            <thead>
+
+            <tr>
+
+                <th>Date</th>
+                <th>Time</th>
+                <th>Camera</th>
+                <th>Event</th>
+                <th>Person</th>
+                <th>Evidence</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="eventBody">
+
+            {% for event in events %}
+
+            <tr data-id="{{event.Date}}-{{event.Time}}-{{event.Camera}}-{{event.Person}}">
+
+                <td>{{event.Date}}</td>
+
+                <td>{{event.Time}}</td>
+
+                <td>{{event.Camera}}</td>
+
+                <td>{{event.Event}}</td>
+
+                <td>{{event.Person}}</td>
+
+                <td>
+
+                    <a href="/evidence?path={{event.Evidence}}" target="_blank">
+
+                        View
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+<script src="/static/js/dashboard.js"></script>
+
+</body>
+
+</html>
