@@ -1,0 +1,58 @@
+import json
+from datetime import datetime
+
+
+class SystemHealth:
+
+    def __init__(self):
+
+        self.file = "system/health.json"
+
+    def update(
+        self,
+        ai_running,
+        model_loaded,
+        connected,
+        total
+    ):
+
+        if not ai_running:
+
+            status = "OFFLINE"
+
+        elif connected < total:
+
+            status = "WARNING"
+
+        else:
+
+            status = "ONLINE"
+
+        data = {
+
+            "status": status,
+
+            "ai_running": ai_running,
+
+            "model_loaded": model_loaded,
+
+            "connected": connected,
+
+            "total": total,
+
+            "last_update": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        }
+
+        with open(self.file, "w") as f:
+
+            json.dump(data, f, indent=4)
+
+    def read(self):
+
+        with open(self.file, "r") as f:
+
+            return json.load(f)
+
+
+health = SystemHealth()
